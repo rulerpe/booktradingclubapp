@@ -1,0 +1,87 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="my-container">
+	<div class="col-md-3">
+		<div class="user-info">
+			<form ng-submit="editUser()" class="form-horizontal">
+				<h3 class="info-head">{{user.user.username}}</h3>
+				<div class="form-group user-info-row">
+				 	<label class="col-sm-4 control-label" for="fullname">Name:</label>
+				 	<div class="col-sm-8">
+				 		<p class="user-info-font" ng-show="editUserData.state">{{user.user.fullname}}</p>
+						<input id="fullname" ng-hide="editUserData.state" type="text" placeholder="{{user.user.fullname}}" ng-model="editUserData.user.fullname" class="form-control">
+					</div>
+				
+				</div>
+				<div class="form-group user-info-row">
+				 	<label class="col-sm-4 control-label" for="location">Location:</label>
+				 	<div class="col-sm-8">
+				 		<p class="user-info-font" ng-show="editUserData.state">{{user.user.location}}</p>
+						<input id="location" ng-hide="editUserData.state" type="text" placeholder="{{user.user.location}}" ng-model="editUserData.user.location" class="form-control">
+					</div>
+				
+				</div>
+				<div class="form-group user-info-row">
+					<div class="col-sm-offset-4 col-sm-8">
+						<button type="button" ng-click="editUserData.state = false" ng-show="editUserData.state" class="btn btn-primary">Edit</button>
+						<button ng-click="editUserData.state = true" ng-hide="editUserData.state" class="btn btn-primary">Submit</button>
+						</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="container books">
+			<div class="row">
+				<div class="book-tab col-md-6 text-center pointer" ng-class="{'seleted-book-tab': !state}" ng-click="getMyBooks()">My Books</div>
+				<div class="book-tab col-md-6 text-center pointer" ng-class="{'seleted-book-tab-right': state}" ng-click="getAllBooks()">All Books</div>
+				<!-- <form ng-show="state" ng-submit="addBook()" class="col-md-offset-4 col-md-4 form-inline">
+					<input type="text" placeholder="Title" ng-model="newBook.name" class="form-control">
+					<button type="submit" class="btn btn-default">Add Book</button>
+				</form> -->
+			</div>
+
+			<div ng-show="state" class="row book-view">
+				<div class="addbook-div">
+					<form ng-show="state" ng-submit="addBook()" class="addbook form-inline">
+						<input type="text" placeholder="Title" ng-model="newBook.name" class="form-control">
+						<button type="submit" class="btn btn-default">Add Book</button>
+					</form>
+				</div>
+				<div class="row">
+					<div class="col-md-3" ng-repeat="book in books.allBooks">
+						<div class="singlebook">
+							<img class="bookcover" src="{{book.img}}" alt="">
+							<div>
+								<h5>Status: {{book.status}}</h5>
+								<div ng-show="book.status == 'pending'">
+									<button ng-click="acceptBook(book._id, {status: 'accept'})" class="btn btn-default">Accept</button>
+									<button ng-click="acceptBook(book._id, {status: 'open'})" class="btn btn-default">Reject</button>
+								</div>
+								<button ng-click="deleteBook(book._id)" ng-show="book.status !== 'pending'" class="btn btn-default">Delete</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+
+			<div ng-hide="state" class="row book-view">
+				<div class="addbook-div">
+					
+				</div>
+				<div class="row">
+					<div class="col-md-3" ng-repeat="book in books.allBooks | filter: '!accept'">
+						<div class="singlebook">
+							<img class="bookcover" src="{{book.img}}" alt="">
+							<div>
+								<h5>Status: {{book.status}}</h5>
+								<button class="btn btn-default" ng-click="tradeBook(book._id)">Trade</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

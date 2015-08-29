@@ -1,0 +1,22 @@
+<div class="my-nav"ng-controller="NavbarCtrl">
+  <div href="#" class="my-navbar-button" ng-click="isCollapsed = !isCollapsed" >
+    <div class="my-menu">
+      <span class="my-icon-bar top rotate" ng-class="{'top': isCollapsed, 'top-move': !isCollapsed}"></span>
+      <span class="my-icon-bar mid rotate" ng-class="{'mid': isCollapsed, 'mid-move': !isCollapsed}"></span>
+      <span class="my-icon-bar end rotate" ng-class="{'end': isCollapsed, 'end-move': !isCollapsed}"></span>
+    </div>
+  </div>
+
+  <div collapse="isCollapsed">
+    <div class="my-navbar">
+      <ul class="my-navbar-nav list-inline list-unstyled">
+        <li ng-repeat="item in menu">
+            <a ng-href="{{item.link}}">Home</a>
+        </li>
+        <li ng-show="isLoggedIn()"><a href="/mybooks">{{currentUser()}}</a></li>
+        <li ng-show="isLoggedIn()"><a href="/main" ng-click="logOut()">Log Out</a></li>
+        <li ng-hide="isLoggedIn()"><a href="/main">Log In</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
